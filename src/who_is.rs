@@ -8,7 +8,7 @@ use std::{
     time::Duration,
 };
 
-use encoding_rs::{ISO_8859_2, UTF_8, WINDOWS_1252};
+use encoding_rs::{UTF_8, WINDOWS_1252};
 use once_cell::sync::Lazy;
 use regex::Regex;
 use serde_json::{Map, Value};
