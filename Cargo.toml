@@ -19,6 +19,7 @@ regex = "1"
 trust-dns-client = "0.23"
 
 tokio = { version = "1", features = ["fs", "net", "time", "io-util"], optional = true }
+encoding_rs = "0.8.34"
 
 [dev-dependencies]
 tokio = { version = "1", features = ["macros", "rt"] }

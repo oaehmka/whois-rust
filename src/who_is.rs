@@ -8,6 +8,7 @@ use std::{
     time::Duration,
 };
 
+use encoding_rs::{ISO_8859_2, UTF_8, WINDOWS_1252};
 use once_cell::sync::Lazy;
 use regex::Regex;
 use serde_json::{Map, Value};
@@ -243,9 +244,19 @@ impl WhoIs {
 
         client.flush()?;
 
-        let mut query_result = String::new();
+        let mut buf = vec![];
+        client.read_to_end(&mut buf)?;
 
-        client.read_to_string(&mut query_result)?;
+        let decoders = [UTF_8, WINDOWS_1252];
+
+        for decoder in &decoders {
+            let (cow, _encoding_used, had_errors) = decoder.decode(&buf);
+            if !had_errors {
+                return Ok((addr, cow.into_owned()));
+            }
+        }
+
+        let query_result = String::from_utf8_lossy(&buf).into_owned();
 
         Ok((addr, query_result))
     }

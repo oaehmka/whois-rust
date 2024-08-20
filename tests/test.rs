@@ -21,6 +21,17 @@ fn test_srv() {
     println!("{}", result);
 }
 
+#[test]
+fn test_non_utf8_responses() {
+    let who = WhoIs::from_host("whois.arin.net").unwrap();
+    
+    let result = who.lookup(WhoIsLookupOptions::from_string("178.202.0.0").unwrap()).unwrap();
+    println!("{}", result);
+
+    let result = who.lookup(WhoIsLookupOptions::from_string("185.73.124.0").unwrap()).unwrap();
+    println!("{}", result);
+}
+
 #[cfg(feature = "tokio")]
 #[tokio::test]
 async fn test_async() {
